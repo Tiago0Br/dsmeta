@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { toast } from 'react-toastify'
 import notificationIcon from '../../assets/img/notification-icon.svg'
 import { BASE_URL } from '../../utils/request'
 import './styles.css'
@@ -8,9 +9,15 @@ type Props = {
 }
 
 function handleClick(id: number) {
+    toast.info('Por favor, aguarde!')
     axios.get(`${BASE_URL}/sales/${id}/notification`)
-        .then(() => console.log('Notificação enviada'))
-        .catch(err => console.log('Erro', err))
+        .then(() => {
+            toast.success('SMS enviado com sucesso!')
+        })
+        .catch(err => {
+            toast.error('Não foi possível enviar o SMS, tente novamente mais tarde.')
+            console.log(err)
+        })
 }
 
 export default function NotificationButton({ saleId }: Props) {
